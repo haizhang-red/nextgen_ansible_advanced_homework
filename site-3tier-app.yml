@@ -1,7 +1,44 @@
+- hosts: localhost
+  vars:
+    OSP_GUID: "{{ lookup('env','OSP_GUID') }}"
+    OSP_DOMAIN: "{{ lookup('env','OSP_DOMAIN') }}"
+    OPENTLC_ID: "{{ lookup('env','OPENTLC_ID') }}"
+  tasks:
+  - name: Create workstation inventory
+    add_host:
+       name: "workstation-{{OSP_GUID}}.{{OSP_DOMAIN}}"
+       group: workstation
+       ansible_user: "cloud-user"
+       ansible_ssh_private_key_file: "~/.ssh/openstack.pem"
+
 - hosts: workstation
   gather_facts: true
   roles:
   - name: osp-facts
+
+- name: Prepare your workstation for ssh to osp instances
+  hosts: workstation
+  become: yes
+  tasks:
+  - name: download openstack.pem
+    get_url:
+      url: http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pem
+      dest: ~/.ssh/openstack.pem
+      mode: 0400
+  
+  - name: Create ssh config file
+    blockinfile:
+      create: yes
+      path: ~/.ssh/config
+      block: |2
+        Host *
+          User cloud-user
+          IdentityFile ~/.ssh/openstack.pem
+          ControlMaster auto
+          ControlPath /tmp/%h-%r
+          ControlPersist 5m
+          UserKnownHostsFile /dev/null
+          StrictHostKeyChecking no
 
 # Setup front-end load balancer tier
 
@@ -15,13 +52,13 @@
 
 # Setup application servers tier
 
-- name: setup app tier
+- name: Deploy, configure, and populate flask repo and virtualenv
   hosts: apps
   become: yes
   gather_facts: false
   roles:
     - {name: base-config, tags: base-config}
-    - {name: app-tier, tags: [apps, tomcat]}
+    - {name: app-tier, tags: [apps, flask]}
 
 # Setup database tier
 

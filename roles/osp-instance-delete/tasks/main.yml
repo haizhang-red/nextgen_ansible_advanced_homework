@@ -1,5 +1,10 @@
 ---
 # tasks file for roles/osp-instance-delete
   - name: Fetch Instance Info
+    os_server_info:
+      cloud: openstack
+      region_name: regionOne
+    register: r_os_servers
+
   - name: Delete instances
-   
+    debug: var=r_os_servers.openstack_servers[0].name
