@@ -11,14 +11,13 @@
 - name: download repos
   get_url:
     url: http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
-    dest: /etc/yum.repos.d/open_three-tier-app.repo
+    dest: /etc/yum.repos.d/internal.repo
     mode: 0644
 
 - name: enable repos
-  template:
-    src: repos_template.j2
-    dest: /etc/yum.repos.d/open_three-tier-app.repo.bak
-    mode: 0644
+  copy:
+    src: ../files/open_three-tier-app.repo
+    dest: /etc/yum.repos.d/open_three-tier-app.repo
  
 # - name: install base tools and packages
 
