@@ -1,4 +1,4 @@
- hosts: workstation
+- hosts: workstation
   become: yes
   roles:
     - { role: osp-servers, instance_name: "{{osp_servers.frontend.name}}", group: "{{osp_servers.frontend.meta[0].group}}", deployment: "{{osp_servers.frontend.meta[0].deployment_name}}", security_group_name: "{{osp_servers.frontend.security_group}}" }
