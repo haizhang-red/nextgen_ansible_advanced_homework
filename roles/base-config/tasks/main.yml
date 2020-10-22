@@ -8,16 +8,46 @@
     replace: 'Defaults  !requiretty'
     backup: yes
 
-- name: download repos
-  get_url:
-    url: http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
-    dest: /etc/yum.repos.d/internal.repo
-    mode: 0644
+#- name: download repos
+#  get_url:
+#    url: http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
+#    dest: /etc/yum.repos.d/internal.repo
+#    mde: 0644
 
 - name: enable repos
-  copy:
-    src: ../files/open_three-tier-app.repo
-    dest: /etc/yum.repos.d/open_three-tier-app.repo
- 
+  blockinfile:
+    create: yes
+    path: /etc/yum.repos.d/open_three-tier-app.repo
+    block: |2
+      [rhel-8-for-x86_64-appstream-rpms]
+      name=rhel-8-for-x86_64-appstream-rpms
+      baseurl=http://192.0.2.253/repos/rhel-8-for-x86_64-appstream-rpms
+      enabled=1
+      gpgcheck=0
+      [rhel-8-for-x86_64-baseos-rpms]
+      name=rhel-8-for-x86_64-baseos-rpms
+      baseurl=http://192.0.2.253/repos/rhel-8-for-x86_64-baseos-rpms
+      enabled=1
+      gpgcheck=0
+      [rhel-8-for-x86_64-highavailability-rpms]
+      name=rhel-8-for-x86_64-highavailability-rpms
+      baseurl=http://192.0.2.253/repos/rhel-8-for-x86_64-highavailability-rpms
+      enabled=1
+      gpgcheck=0
+      [openstack-16-for-rhel-8-x86_64-rpms]
+      name=openstack-16-for-rhel-8-x86_64-rpms
+      baseurl=http://192.0.2.253/repos/openstack-16-for-rhel-8-x86_64-rpms
+      enabled=1
+      gpgcheck=0
+      [fast-datapath-for-rhel-8-x86_64-rpms]
+      name=fast-datapath-for-rhel-8-x86_64-rpms
+      baseurl=http://192.0.2.253/repos/fast-datapath-for-rhel-8-x86_64-rpms
+      enabled=1
+      gpgcheck=0
+      [ansible-2.8-for-rhel-8-x86_64-rpms]
+      name=ansible-2.8-for-rhel-8-x86_64-rpms
+      baseurl=http://192.0.2.253/repos/ansible-2.8-for-rhel-8-x86_64-rpms
+      enabled=1
+      gpgcheck=0
 # - name: install base tools and packages
 
