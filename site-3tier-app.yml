@@ -27,18 +27,15 @@
 #          UserKnownHostsFile /dev/null
 #          StrictHostKeyChecking no
 
-# Setup front-end load balancer tier
-
-
-- name: setup load-balancer tier
-  hosts: frontends
+# Setup database tier
+- name: Deploy, configure, and populate Postgres 10
   become: yes
+  hosts: appdbs
   roles:
     - {name: base-config, tags: base-config}
-    - {name: lb-tier, tags: [lbs, haproxy]}
+    - {name: db-tier, tags: [dbs, postgres]}
 
 # Setup application servers tier
-
 - name: Deploy, configure, and populate flask repo and virtualenv
   hosts: apps
   become: yes
@@ -47,11 +44,10 @@
     - {name: base-config, tags: base-config}
     - {name: app-tier, tags: [apps, flask]}
 
-# Setup database tier
-
-- name: setup database tier
+# Setup front-end load balancer tier
+- name: setup load-balancer tier
+  hosts: frontends
   become: yes
-  hosts: appdbs
   roles:
     - {name: base-config, tags: base-config}
-    - {name: db-tier, tags: [dbs, postgres]}
+    - {name: lb-tier, tags: [lbs, haproxy]}
