@@ -5,7 +5,7 @@
   os_server:
     cloud: openstack
     name: "{{ instance_name }}"
-    image: rhel-guest
+    image: rhel-8.1
     meta: "group={{ group }},deployment_name={{ deployment }}"
     flavor: m1.medium
     security_groups: "{{ security_group_name }}"
