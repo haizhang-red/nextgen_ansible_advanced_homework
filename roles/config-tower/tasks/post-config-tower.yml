@@ -10,7 +10,7 @@
     tower_username: admin
     tower_password: r3dh4t1!
     state: present
-#    tower_config_file: "~/tower_cli.cfg"
+#    tower_config_file: "~/.tower_cli.cfg"
 
 - name: Machine Credentail to connect to workstation using openstack.pub
   tower_credential:
@@ -24,13 +24,9 @@
     ssh_key_data: "/root/.ssh/openstack.pem"
     username: cloud-user
 
-- name: Change tower-cli username 
-  command: |
-    tower-cli config username {{user_name}}
-
-- name: Change tower-cli password
-  command: |
-    tower-cli config password {{password}}
+#- name: Change tower-cli password
+#  command: |
+#    tower-cli config password {{password}}
 
 - name: Create Inventory
   command: |
