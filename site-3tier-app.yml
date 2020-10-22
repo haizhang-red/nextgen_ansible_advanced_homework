@@ -27,6 +27,13 @@
 #          UserKnownHostsFile /dev/null
 #          StrictHostKeyChecking no
 
+- name: Gather database facts
+  hosts: appdbs
+  gather_facts: true
+
+  tasks: []
+
+
 # Setup database tier
 - name: Deploy, configure, and populate Postgres 10
   become: yes
