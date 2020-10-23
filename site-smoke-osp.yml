@@ -32,6 +32,12 @@
       tags:
         - smoketest
 
+- name: Gather forntend facts
+  hosts: frontends
+  gather_facts: true
+
+  tasks: []
+
 - name: End to end smoke tests
   hosts: apps
   become: false
@@ -43,7 +49,7 @@
     - name: Check webserver for correct response
       uri:
       #  url: "http://frontend1.{{ GUID }}.example.opentlc.com/ping"
-        url: "http://frontend/ping"
+        url: "http://{{ groups.frontends[0] }}/ping"
         return_content: yes
       until: '"alive" in result.content'
       retries: 10
