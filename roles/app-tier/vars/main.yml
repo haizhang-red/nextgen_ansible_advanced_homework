@@ -10,6 +10,7 @@ virtualenv_python: /usr/bin/python3
   
 
 app_yum_packages:
+  - https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
   - autoconf
   - automake
   - git
@@ -23,4 +24,4 @@ app_yum_packages:
 pip_dependencies:
   - virtualenv
   - pip  
-  - psycopg2-binary
+#  - psycopg2-binary
